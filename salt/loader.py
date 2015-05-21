@@ -184,8 +184,10 @@ def minion_mods(
     # Load any provider overrides from the configuration file providers option
     #  Note: Providers can be pkg, service, user or group - not to be confused
     #        with cloud providers.
-    if opts.get('providers', False):
-        providers = opts.get('providers', False)
+    providers = opts.get('providers', False)
+
+    # If it's a dict then it's probably a cloud provider
+    if providers and not isinstance(providers, dict):
         for mod in providers:
             funcs = raw_mod(opts, providers[mod], ret.items())
             if funcs:
